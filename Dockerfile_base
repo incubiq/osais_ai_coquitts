@@ -1,0 +1,90 @@
+##
+##      To build the AI_COQUI_ docker image
+##
+
+FROM yeepeekoo/public:ai_base_osais
+
+## how to deal with espeak?
+## RUN sudo apt-get install espeak-ng
+
+# core deps
+RUN pip3 install \
+    numpy==1.21.6 \
+    cython==0.29.30 \
+    scipy==1.10.1 \
+    torch==1.13.1 \
+    torchaudio \
+    soundfile \
+    librosa==0.10.0.post2 \
+    numba==0.55.1 \
+    inflect==5.6.0 \
+    tqdm \
+    anyascii \
+    pyyaml \
+    fsspec>=2021.04.0 \
+    aiohttp \
+    packaging
+
+# deps for examples
+RUN pip3 install \
+    flask
+
+# deps for inference
+RUN pip3 install \
+    pysbd
+
+# deps for notebooks
+RUN pip3 install \
+    umap-learn==0.5.1 \
+    pandas
+
+# deps for training
+RUN pip3 install \
+    matplotlib
+
+# coqui stack
+RUN pip3 install \
+    trainer
+
+# config management
+RUN pip3 install \
+    coqpit>=0.0.16
+
+# chinese g2p deps
+RUN pip3 install \
+    jieba\
+    pypinyin
+
+# japanese g2p deps
+RUN pip3 install \
+    mecab-python3==1.0.6 \
+    unidic-lite==1.0.8 
+
+# gruut+supported langs
+RUN pip3 install \
+    gruut[de,es,fr]==2.2.3
+
+# deps for korean
+RUN pip3 install \
+    jamo \
+    nltk \
+    g2pkk>=0.1.1
+
+# deps for bangla
+RUN pip3 install \
+    bangla==0.0.2 \
+    bnnumerizer \
+    bnunicodenormalizer==0.1.1
+
+#deps for tortoise
+RUN pip3 install \
+    k_diffusion \
+    einops \
+    transformers
+
+#deps for bark
+RUN pip3 install \
+    encodec
+
+# run as a server
+CMD ["uvicorn", "main_fastapi:app", "--host", "0.0.0.0", "--port", "5000"]

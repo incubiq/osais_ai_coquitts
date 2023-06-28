@@ -1,0 +1,71 @@
+{
+    "engine": "coquitts",
+    "name": "Coqui TTS",
+    "location": "",
+    "ip": "0.0.0.0",
+    "port": 5502,
+    "version": "1.0.2",
+    "description": "Text to Speech",
+    "github": "https://github.com/coqui-ai/TTS",
+    "requiresGPU": true,
+    "isFree": false,
+    "default_cost": 1000,
+    "params": [{
+        "in": "word",
+        "out": "--prompt",
+        "isMandatory": true,
+        "type": "string",
+        "default": null,
+        "ui": {
+            "title": "Input (text)",
+            "placeholder": "eg: This is not what it sounds like",
+            "widget": "uiEdit",
+            "column": 1
+        }
+    }, {
+        "in": "url_upload",
+        "out": "-filename",
+        "isMandatory": true,
+        "type": "string",
+        "default": null,
+        "accept": {"$max": 2048},
+        "ui": {
+            "title": "Your voice",
+            "widget": "uiSelectPicture",
+            "column": 1
+        }
+    }, {
+        "in": "intl",
+        "out": "--intl",
+        "isMandatory": false,
+        "type": "string",
+        "default": "en",
+        "accept": {
+            "$in":["en", "fr-fr"],
+            "display":["en", "fr"]
+        },
+        "ui": {
+            "title": "Language accent",
+            "widget": "uiMultiToggle",
+            "column": 2
+        }
+    }, {
+        "in": "output",
+        "out": "-o",
+        "isMandatory": true,
+        "type": "function",
+        "default": "$output_uid.wav"
+    }, {
+        "in": "idir",
+        "out": "-idir",
+        "isMandatory": false,
+        "type": "string",
+        "default": "./_input/"
+    }, {
+        "in": "odir",
+        "out": "-odir",
+        "isMandatory": false,
+        "type": "string",
+        "default": "./_output/"
+    }]
+}
