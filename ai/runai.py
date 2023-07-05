@@ -15,6 +15,7 @@ import argparse
 import torch
 import time
 from TTS.api import TTS
+from datetime import datetime
 
 MODEL_MULTILINGUAL="tts_models/multilingual/multi-dataset/your_tts"
 mainTTS = TTS(model_name=MODEL_MULTILINGUAL, progress_bar=False, gpu=True)
@@ -122,6 +123,7 @@ def fnRun(_args):
     vq_parser.add_argument("-model",  "--model", type=str, help="TTS model to use", default=MODEL_MULTILINGUAL, dest='model')
     vq_parser.add_argument("-o",    "--output", type=str, help="Output filename", default="output.wav", dest='output')
 
+    beg_date = datetime.utcnow()
 
     # Execute the parse_args() method
     try:
@@ -140,3 +142,11 @@ def fnRun(_args):
     except Exception as err:
         print("\r\nCRITICAL ERROR!!!")
         raise err
+    
+    ## return output
+    end_date = datetime.utcnow()
+    return {
+        "beg_date": beg_date,
+        "end_date": end_date,
+        "aFile": [args.output]
+    }
