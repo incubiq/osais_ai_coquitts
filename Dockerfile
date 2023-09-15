@@ -26,7 +26,6 @@ COPY ./_temp/osais.json .
 
 # copy AI specifics
 COPY ./coquitts.json .
-COPY ./_coquitts.py .
 COPY ./_input/warmup.wav ./_input/warmup.wav
 
 # overload config with those default settings

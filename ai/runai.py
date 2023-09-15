@@ -20,6 +20,37 @@ from datetime import datetime
 MODEL_MULTILINGUAL="tts_models/multilingual/multi-dataset/your_tts"
 mainTTS = TTS(model_name=MODEL_MULTILINGUAL, progress_bar=False, gpu=True)
 
+## where to save the user profile?
+def fnGetUserdataPath(_username):
+    _path=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    DEFAULT_PROFILE_DIR = os.path.join(_path, '_profile')
+    USER_PROFILE_DIR = os.path.join(DEFAULT_PROFILE_DIR, _username)
+    return {
+        "location": USER_PROFILE_DIR,
+        "voice": True,
+        "picture": False
+    }
+
+## WARMUP Data
+def getWarmupData(_id):
+    try:
+        import time
+        from werkzeug.datastructures import MultiDict
+        ts=int(time.time())
+        sample_args = MultiDict([
+            ('-u', 'test_user'),
+            ('-uid', str(ts)),
+            ('-t', _id),
+            ('-cycle', '0'),
+            ('-p', 'a test message'),
+            ('-o', 'warmup.wav'),
+            ('-filename', 'warmup.wav')
+        ])
+        return sample_args
+    except:
+        print("Could not call warm up!\r\n")
+        return None
+
 # Running a multi-speaker and multi-lingual model
 def _test(): 
     # List available 🐸TTS models and choose the first one
@@ -140,7 +171,6 @@ def fnRun(_args):
             mainTTS.tts_to_file(args.prompts, speaker_wav=os.path.join(_inputDir, args.voice), language=args.intl, file_path=os.path.join(_outputDir,args.output), speed=args.speed)
 
     except Exception as err:
-        print("\r\nCRITICAL ERROR!!!")
         raise err
     
     ## return output
@@ -148,5 +178,6 @@ def fnRun(_args):
     return {
         "beg_date": beg_date,
         "end_date": end_date,
+        "mCost": 1,            ## cost multiplier of this AI
         "aFile": [args.output]
     }
