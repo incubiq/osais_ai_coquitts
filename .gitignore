@@ -3,7 +3,8 @@
 *__pycache__*
 _input/*
 _output/*
-_temp
+_temp/*
+_profile/*
 
 readme.txt
 
